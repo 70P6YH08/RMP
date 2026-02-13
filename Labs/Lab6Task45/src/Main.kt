@@ -4,11 +4,13 @@ fun main() {
 
     //Task4
 
-//    println("Введите название процента: ")
-//    val name = readln()
-//    val namePercent = count(name)
-//    val result = namePercent(10000.0,10.0,10.0)
-//    println("%.2f".format(result))
+    println("Введите название процента: ")
+    val name = readln()
+    val namePercent = count(name)
+    val result = namePercent(10000.0,10.0,10.0)
+    println("%.2f".format(result))
+
+    //Task 5
 
     println("Введите количество продуктов: ")
     var countProducts = readln().toInt()
@@ -20,18 +22,18 @@ fun main() {
 
 //4
 
-//val simplePercent = { so: Double, r: Double, n : Double -> so * (1 + r/100 * n)}
-//val hardPercent = { so: Double, r: Double, n : Double -> so * (1 + r/100).pow(n)}
-//
-//fun count (namePercent : String) : (Double, Double, Double) -> Double {
-//    return when(namePercent){
-//        "простой" -> simplePercent
-//        "сложный" -> hardPercent
-//        else -> {
-//            _, _, _-> 0.0
-//        }
-//    }
-//}
+val simplePercent = { so: Double, r: Double, n : Double -> so * (1 + r/100 * n)}
+val hardPercent = { so: Double, r: Double, n : Double -> so * (1 + r/100).pow(n)}
+
+fun count (namePercent : String) : (Double, Double, Double) -> Double {
+    return when(namePercent){
+        "простой" -> simplePercent
+        "сложный" -> hardPercent
+        else -> {
+            _, _, _-> 0.0
+        }
+    }
+}
 
 //5
 
