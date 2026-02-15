@@ -27,6 +27,25 @@ fun main(){
 
     //Task 4
 
-    var number = RandomDataSource(arrayOf(1,2,3,4,5,6,7))
-    println(number)
+    val randomElements = RandomDataSource{(0..100).random()}
+    val staticElements = StaticDataSource(arrayOf(1,2,3,4,5,6))
+
+    println("Рандомные")
+    printElements(randomElements)
+    println("Статичные")
+    printElements(staticElements)
+
+    //Task 5
+
+    val serviceName = FoodService("Додо пицца")
+    val order = DeliveryApplication(serviceName)
+
+    order.deliver(2)
+    order.orderCreate(3)
+}
+
+fun <T> printElements(element : DataSource<T>){
+    repeat(10){
+        println(element.getNext())
+    }
 }

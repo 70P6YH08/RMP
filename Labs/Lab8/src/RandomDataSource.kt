@@ -1,8 +1,3 @@
-class RandomDataSource<T>(var numbers: Array<T>) : DataSource<T>{
-    override fun getNext(): T? {
-        var randomNumber : Int = (0 ..numbers.size).random()
-
-        return numbers[randomNumber]
-    }
-
+class RandomDataSource<T>(val randomElement : () -> T) : DataSource<T>{
+    override fun getNext(): T = randomElement()
 }
