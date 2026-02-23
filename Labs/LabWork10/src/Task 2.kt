@@ -5,6 +5,7 @@ suspend fun main() = coroutineScope{
     println("Введите 'cancel' для отмены загрузки:")
 
     val downloader = launch(Dispatchers.IO) {
+        println("${Thread.currentThread().name}")
         downloadFile()
     }
 
