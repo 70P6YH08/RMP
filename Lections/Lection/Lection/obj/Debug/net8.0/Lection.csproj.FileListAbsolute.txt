@@ -1,0 +1,15 @@
+C:\Users\221\Students\ispp31\RMP\Lections\Lection\Lection\bin\Debug\net8.0\Lection.exe
+C:\Users\221\Students\ispp31\RMP\Lections\Lection\Lection\bin\Debug\net8.0\Lection.deps.json
+C:\Users\221\Students\ispp31\RMP\Lections\Lection\Lection\bin\Debug\net8.0\Lection.runtimeconfig.json
+C:\Users\221\Students\ispp31\RMP\Lections\Lection\Lection\bin\Debug\net8.0\Lection.dll
+C:\Users\221\Students\ispp31\RMP\Lections\Lection\Lection\bin\Debug\net8.0\Lection.pdb
+C:\Users\221\Students\ispp31\RMP\Lections\Lection\Lection\obj\Debug\net8.0\Lection.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\221\Students\ispp31\RMP\Lections\Lection\Lection\obj\Debug\net8.0\Lection.AssemblyInfoInputs.cache
+C:\Users\221\Students\ispp31\RMP\Lections\Lection\Lection\obj\Debug\net8.0\Lection.AssemblyInfo.cs
+C:\Users\221\Students\ispp31\RMP\Lections\Lection\Lection\obj\Debug\net8.0\Lection.csproj.CoreCompileInputs.cache
+C:\Users\221\Students\ispp31\RMP\Lections\Lection\Lection\obj\Debug\net8.0\Lection.sourcelink.json
+C:\Users\221\Students\ispp31\RMP\Lections\Lection\Lection\obj\Debug\net8.0\Lection.dll
+C:\Users\221\Students\ispp31\RMP\Lections\Lection\Lection\obj\Debug\net8.0\refint\Lection.dll
+C:\Users\221\Students\ispp31\RMP\Lections\Lection\Lection\obj\Debug\net8.0\Lection.pdb
+C:\Users\221\Students\ispp31\RMP\Lections\Lection\Lection\obj\Debug\net8.0\Lection.genruntimeconfig.cache
+C:\Users\221\Students\ispp31\RMP\Lections\Lection\Lection\obj\Debug\net8.0\ref\Lection.dll
