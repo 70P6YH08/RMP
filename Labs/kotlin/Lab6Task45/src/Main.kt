@@ -12,12 +12,13 @@ fun main() {
 
     //Task 5
 
-    println("Введите количество продуктов: ")
-    var countProducts = readln().toInt()
+    println("Введите название продукта: ")
+    var nameProduct = readln()
+    println("Введите цену продукта: ")
+    var priceProduct = readln().toDouble()
+    val addProduct = addProduct(nameProduct,priceProduct)
 
-    val func = addProduct(countProducts)
-    func("творог",100.0)
-
+    addProduct(3)
 }
 
 //4
@@ -37,10 +38,10 @@ fun count (namePercent : String) : (Double, Double, Double) -> Double {
 
 //5
 
-fun addProduct(count: Int) : (String, Double) -> Unit {
-
-    fun product(name: String, price: Double){
-        println("В корзину добавлен $name на сумму ${price * count}")
+fun addProduct(nameProduct: String, price: Double) : (Int) -> Unit {
+    return { count ->
+        val totalPrice = price * count
+        println("В корзину добавлен $nameProduct на сумму ${price * count}")
     }
-    return ::product
 }
+

@@ -8,10 +8,10 @@ suspend fun main() = coroutineScope{
     println("${downloader.await()}")
 }
 
-suspend fun connectWebServer() : Int = coroutineScope {
+suspend fun connectWebServer() : Int {
     println("Подключение к веб-серверу")
     delay(1000)
     val codeArr = arrayOf(200, 400, 401, 403, 404, 410, 500)
     val random = codeArr.random()
-    return@coroutineScope random
+    return random
 }

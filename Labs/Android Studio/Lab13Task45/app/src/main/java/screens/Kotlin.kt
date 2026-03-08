@@ -29,11 +29,12 @@ fun Authorization() {
         Text(text = "АВТОРИЗАЦИЯ", fontSize = 40.sp, fontWeight = FontWeight.Bold)
         Column(){
             Text(text = "Логин", fontSize = 20.sp)
-            TextField(value = "Логин", onValueChange = {})
-        }
-        Column(){
+            TextField(value = "Логин", onValueChange = {},
+                modifier = Modifier.padding(bottom = 20.dp),
+                enabled = true)
             Text(text = "Пароль", fontSize = 20.sp)
-            TextField(value = "Пароль", onValueChange = {})
+            TextField(value = "Пароль", onValueChange = {},
+                enabled = true)
         }
         Button({})
         {

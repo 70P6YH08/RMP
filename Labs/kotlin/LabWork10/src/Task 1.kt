@@ -1,6 +1,7 @@
 import kotlinx.coroutines.*
 
 suspend fun main() = coroutineScope{
+    println("${Thread.currentThread().name}")
 
     launch (Dispatchers.Default)
     {
@@ -13,7 +14,7 @@ suspend fun main() = coroutineScope{
         println("${Thread.currentThread().name}")
         cat()
     }
-    Unit;
+    Unit
 }
 
 suspend fun sheep() {

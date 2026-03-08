@@ -20,6 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.ui.theme.MyApplicationTheme
+import screens.Authorization
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,6 +34,7 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(innerPadding)
                     )
                     Task5()
+                    Authorization()
                 }
             }
         }
@@ -58,15 +60,15 @@ fun GreetingPreview() {
 @Preview(showBackground = true)
 @Composable
 fun Task5() {
-    val fruits = listOf<String>("ship", "airplane", "bike", "car", "legs")
+    val fruits = listOf("ship", "airplane", "bike", "car", "legs")
     Column(modifier = Modifier.fillMaxSize()) {
         fruits.forEach { fruit ->
             Text(text = fruit,
+                textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color.LightGray)
-                    .padding(10.dp),
-                textAlign = TextAlign.Center
+                    .padding(50.dp)
+                    .background(Color.Red)
             )
         }
     }

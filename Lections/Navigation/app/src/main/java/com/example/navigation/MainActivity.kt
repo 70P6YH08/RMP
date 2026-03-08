@@ -44,16 +44,16 @@ fun NavRoot(){
     NavigationTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             Column(Modifier.padding(innerPadding)) {
-//                NavBar(
-//                    onClickHome = {current = "home"},
-//                    onClickProfile = {current = "profile"},
-//                    onClickSettings = {current = "settings"}
-//                )
-//                when(current){
-//                    "home" -> Home()
-//                    "profile" -> Profile()
-//                    "settings" -> Settings()
-//                }
+                NavBar(
+                    onClickHome = {current = "home"},
+                    onClickProfile = {current = "profile"},
+                    onClickSettings = {current = "settings"}
+                )
+                when(current){
+                    "home" -> Home()
+                    "profile" -> Profile()
+                    "settings" -> Settings()
+                }
             }
         }
 //        Screens.HOME.route
@@ -61,47 +61,47 @@ fun NavRoot(){
     }
 }
 
-@Composable
-fun TrueNavRoot(){
-    val navController = rememberNavController()
-    NavigationTheme {
-        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-            Column(Modifier.padding(innerPadding)) {
-                TrueNavBar(navController)
-                NavHost(navController, startDestination = Screens.HOME.route){
-                    composable(Screens.HOME.route){
-                        Home()
-                    }
-                    composable("profile/{id}",
-                        arguments = listOf(
-                            navArgument("id"){type = NavType.IntType}
-                        )
-                    ){ stack ->
-                        Profile(stack.arguments?.getInt("id")!!)
-                    }
-                    composable(Screens.SETTINGS.route){
-                        Settings()
-                    }
-                }
-            }
-        }
-    }
-}
+//@Composable
+//fun TrueNavRoot(){
+//    val navController = rememberNavController()
+//    NavigationTheme {
+//        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+//            Column(Modifier.padding(innerPadding)) {
+//                TrueNavBar(navController)
+//                NavHost(navController, startDestination = Screens.HOME.route){
+//                    composable(Screens.HOME.route){
+//                        Home()
+//                    }
+//                    composable("profile/{id}",
+//                        arguments = listOf(
+//                            navArgument("id"){type = NavType.IntType}
+//                        )
+//                    ){ stack ->
+//                        Profile(stack.arguments?.getInt("id")!!)
+//                    }
+//                    composable(Screens.SETTINGS.route){
+//                        Settings()
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}
 
-@Composable
-fun TrueNavBar(navController: NavController){
-    Row(Modifier.fillMaxSize()){
-        Button({navController.navigate(Screens.HOME.route)}) {
-            Text("Главная")
-        }
-        Button({navController.navigate(Screens.PROFILE.route)}) {
-            Text("Профиль")
-        }
-        Button({navController.navigate(Screens.SETTINGS.route)}) {
-            Text("Настройки")
-        }
-    }
-}
+//@Composable
+//fun TrueNavBar(navController: NavController){
+//    Row(Modifier.fillMaxSize()){
+//        Button({navController.navigate(Screens.HOME.route)}) {
+//            Text("Главная")
+//        }
+//        Button({navController.navigate(Screens.PROFILE.route)}) {
+//            Text("Профиль")
+//        }
+//        Button({navController.navigate(Screens.SETTINGS.route)}) {
+//            Text("Настройки")
+//        }
+//    }
+//}
 
 enum class Screens(val route: String){
     HOME("home"),
@@ -109,28 +109,28 @@ enum class Screens(val route: String){
     SETTINGS("settings"),
 }
 
-sealed class Screens1(val route: String){
-    object Home : Screens1("home")
-    object Profile : Screens1("profile")
-    object Settings : Screens1("settings")
-}
-
-//@Composable
-//fun NavBar(onClickHome: () -> Unit,
-//            onClickProfile: () -> Unit,
-//           onClickSettings: () -> Unit){
-//    Row(Modifier.fillMaxSize()){
-//        Button({onClickHome}) {
-//            Text("Главная")
-//        }
-//        Button({onClickProfile}) {
-//            Text("Профиль")
-//        }
-//        Button({onClickSettings}) {
-//            Text("Настройки")
-//        }
-//    }
+//sealed class Screens1(val route: String){
+//    object Home : Screens1("home")
+//    object Profile : Screens1("profile")
+//    object Settings : Screens1("settings")
 //}
+
+@Composable
+fun NavBar(onClickHome: () -> Unit,
+            onClickProfile: () -> Unit,
+           onClickSettings: () -> Unit){
+    Row(Modifier.fillMaxSize()){
+        Button({onClickHome}) {
+            Text("Главная")
+        }
+        Button({onClickProfile}) {
+            Text("Профиль")
+        }
+        Button({onClickSettings}) {
+            Text("Настройки")
+        }
+    }
+}
 
 
 
