@@ -56,7 +56,7 @@ fun Authorization(onRegistrationClick: () -> Unit, onUserProfileClick: () -> Uni
         TextField(
             text,
             { text = it },
-            label = { Text("Логин") },
+            placeholder = { Text("Введите логин") },
             maxLines = 1,
             modifier = Modifier
                 .width(200.dp)
@@ -67,7 +67,7 @@ fun Authorization(onRegistrationClick: () -> Unit, onUserProfileClick: () -> Uni
         TextField(
             text,
             { text = it },
-            label = { Text("Пароль") },
+            placeholder = { Text("Введите пароль") },
             maxLines = 1,
             modifier = Modifier
                 .width(200.dp)
@@ -113,7 +113,7 @@ fun Registration(onAuthorizationClick: () -> Unit) {
         TextField(
             text,
             { text = it },
-            label = { Text("Логин") },
+            placeholder = { Text("Введите логин") },
             maxLines = 1,
             modifier = Modifier
                 .width(200.dp)
@@ -125,7 +125,7 @@ fun Registration(onAuthorizationClick: () -> Unit) {
         TextField(
             text,
             { text = it },
-            label = { Text("Пароль") },
+            placeholder = { Text("Введите пароль") },
             maxLines = 1,
             modifier = Modifier
                 .width(200.dp)
@@ -137,7 +137,7 @@ fun Registration(onAuthorizationClick: () -> Unit) {
         TextField(
             text,
             { text = it },
-            label = { Text("Подтвердите пароль") },
+            placeholder = { Text("Подтвердите пароль") },
             maxLines = 1,
             modifier = Modifier
                 .width(200.dp)
@@ -149,7 +149,7 @@ fun Registration(onAuthorizationClick: () -> Unit) {
         TextField(
             text,
             { text = it },
-            label = { Text("Номер") },
+            placeholder = { Text("Введите номер") },
             maxLines = 1,
             modifier = Modifier
                 .width(200.dp)
@@ -161,7 +161,7 @@ fun Registration(onAuthorizationClick: () -> Unit) {
         TextField(
             text,
             { text = it },
-            label = { Text("Email") },
+            placeholder = { Text("Введите email") },
             maxLines = 1,
             modifier = Modifier
                 .width(200.dp)
@@ -173,7 +173,7 @@ fun Registration(onAuthorizationClick: () -> Unit) {
         TextField(
             text,
             { text = it },
-            label = { Text("Возраст") },
+            placeholder = { Text("Введите возраст") },
             maxLines = 1,
             modifier = Modifier
                 .width(200.dp)
