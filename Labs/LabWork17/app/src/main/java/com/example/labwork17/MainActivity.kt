@@ -6,14 +6,18 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,7 +27,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.labwork17.ui.theme.LabWork17Theme
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.selects.RegistrationFunction
 
 class MainActivity : ComponentActivity() {
@@ -33,6 +39,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             LabWork17Theme {
                 Registration()
+//                PinCode()
+//                AboutMe()
             }
         }
     }
@@ -49,6 +57,7 @@ fun Registration() {
     var age by remember { mutableStateOf("") }
     var personalSite by remember { mutableStateOf("") }
     val buttonState = remember { mutableStateOf("Зарегистрироваться") }
+    val checkedState = remember { mutableStateOf(false) }
     Column(
         Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -103,6 +112,17 @@ fun Registration() {
             placeholder = { Text(text = "Вставьте ссылку на сайт") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
         )
+        Row(Modifier.padding(horizontal = 10.dp)){
+            Checkbox(
+                checked = checkedState.value,
+                onCheckedChange = { checkedState.value = it }
+            )
+            Text(text = "Я согласен на обработку своих персональных данных и принимаю условия" +
+                    "Политики конфиденциальности и Пользовательского соглашения")
+        }
+
+
+
         Button(onClick = {
             if (login.length > 0 &&
                 password.length > 0 &&
@@ -115,6 +135,46 @@ fun Registration() {
                 buttonState.value = "${login}, Вы зарегистрированы"
             else
                 buttonState.value = "Не все поля ввода заполнены"
+        },
+            enabled = if (checkedState.value == true) true else false
+        ){
+            Text(text = buttonState.value)
+        }
+    }
+}
+
+@Composable
+fun PinCode() {
+    var pinCode by remember { mutableStateOf("") }
+    val rightPinCode = remember { mutableStateOf("1488") }
+    val buttonState = remember { mutableStateOf("Отправить") }
+    val counter = remember { mutableStateOf(3) }
+    Column(
+        Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        OutlinedTextField(
+            value = pinCode,
+            onValueChange = {
+                if (pinCode.length < 4)
+                    pinCode = it
+            },
+            enabled = if (counter.value == 0) false else true,
+            label = { Text(text = "Пароль") },
+            placeholder = { Text(text = "Введите пароль") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword)
+        )
+        Text(text = "Осталось попыток: ${counter.value}")
+        Button(onClick = {
+            if (pinCode == rightPinCode.value) {
+                buttonState.value = "Отправить (верно)"
+                pinCode = ""
+            } else {
+                buttonState.value = "Отправить (неверно)"
+                pinCode = ""
+                counter.value -= 1
+            }
         }) {
             Text(text = buttonState.value)
         }
@@ -122,25 +182,30 @@ fun Registration() {
 }
 
 @Composable
-fun pinCode(){
-    var pinCode by remember { mutableStateOf("") }
+fun AboutMe() {
+    var text by remember { mutableStateOf("") }
+    var maxLength = 300
     Column(
         Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
-    ){
+    ) {
         OutlinedTextField(
-            value = pinCode,
-            onValueChange = { pinCode = it },
-            label = { Text(text = "Пароль") },
-            placeholder = { Text(text = "Введите пароль") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword)
-
-
+            value = text,
+            onValueChange = {
+                if (it.length <= maxLength){
+                    text = it
+                }
+            },
+            label = {Text(text = "О себе")},
+            minLines = 4,
+            maxLines = 8,
+            modifier = Modifier.fillMaxWidth()
         )
-        Button(onClick = {
-            }) {
-            Text(text = "Отправить")
-        }
+        OutlinedTextField(
+            value = "Осталось символов для ввода: ${maxLength - text.length}",
+            onValueChange = {},
+            enabled = false,
+        )
     }
 }
