@@ -1,21 +1,27 @@
 package com.example.labwork17
 
+import android.R.attr.fontWeight
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Slider
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -25,12 +31,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.labwork17.ui.theme.LabWork17Theme
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.selects.RegistrationFunction
+import kotlin.math.roundToInt
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,9 +47,10 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             LabWork17Theme {
-                Registration()
+//                Registration()
 //                PinCode()
 //                AboutMe()
+                FontSettingsScreen()
             }
         }
     }
@@ -206,6 +216,81 @@ fun AboutMe() {
             value = "Осталось символов для ввода: ${maxLength - text.length}",
             onValueChange = {},
             enabled = false,
+        )
+    }
+}
+
+@Composable
+fun FontSettingsScreen() {
+    val colors = listOf(
+        "Красный" to Color.Red,
+        "Зеленый" to Color.Green,
+        "Синий" to Color.Blue,
+        "Желтый" to Color.Yellow,
+        "Черный" to Color.Black
+    )
+    val text = remember { mutableStateOf("ТЕКСТ") }
+    var selectedColor by remember { mutableStateOf(colors[0].second) }
+    var fontSize by remember { mutableStateOf(16f) }
+    val isBold = remember { mutableStateOf(false) }
+    val isItalic = remember { mutableStateOf(false) }
+
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .padding(top = 100.dp)) {
+        colors.forEach { (colorText, color) ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable(
+                        onClick = { selectedColor = color }
+                    ),
+            ) {
+                RadioButton(
+                    selected = (selectedColor == color),
+                    onClick = null
+                )
+                Box(
+                    modifier = Modifier
+                        .size(24.dp)
+                        .background(color)
+                )
+                Text(text = colorText)
+            }
+        }
+
+        Column(horizontalAlignment = Alignment.End){
+            Slider(
+                value = fontSize,
+                onValueChange = { fontSize = it },
+                valueRange = 10f..30f,
+                steps = 19,
+                modifier = Modifier.fillMaxWidth()
+            )
+            Text("${fontSize.toInt()}")
+        }
+
+        Row{
+            Text(text = "Жирный")
+            Switch(
+                checked = isBold.value,
+                onCheckedChange = {isBold.value = it}
+            )
+        }
+
+        Row {
+            Text(text = "Курсив")
+            Switch(
+                checked = isItalic.value,
+                onCheckedChange = {isItalic.value = it}
+            )
+        }
+        Text(
+            text = text.value,
+            fontSize = fontSize.sp,
+            color = selectedColor,
+            fontWeight = if (isBold.value) FontWeight.Bold else FontWeight.Normal,
+            fontStyle = if (isItalic.value) FontStyle.Italic else FontStyle.Normal
         )
     }
 }
