@@ -227,7 +227,7 @@ fun FontSettingsScreen() {
         "Зеленый" to Color.Green,
         "Синий" to Color.Blue,
         "Желтый" to Color.Yellow,
-        "Черный" to Color.Black
+        "Фиолетовый" to Color.Magenta
     )
     val text = remember { mutableStateOf("ТЕКСТ") }
     var selectedColor by remember { mutableStateOf(colors[0].second) }
