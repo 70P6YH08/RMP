@@ -1,3 +1,4 @@
+import java.lang.String.format
 import kotlin.math.pow
 
 fun main() {

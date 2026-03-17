@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val state by rememberSaveable{mutableStateOf("Hello")}
+            val state = rememberSaveable{mutableStateOf("Hello")}
             MyApplicationTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Column(modifier = Modifier.padding(innerPadding)){
@@ -97,8 +97,8 @@ fun LoginScreen(){
 
 /**
  * @param T обобщённый тип
- * @sample com.example.states.sumExample
- * @see com.example.states.sumExample
+ * @sample com.example.myapplication.sumExample
+ * @see com.example.myapplication.sumExample
  */
 
 fun <T> sum(a: T, b : T): T{
