@@ -6,11 +6,17 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -33,9 +39,21 @@ import androidx.compose.ui.unit.sp
 fun Authorization(
     onListProduct : () -> Unit,
     onRegistration : () -> Unit,
+    onBack : () -> Unit
 ) {
     var login by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+
+    Button(
+        onClick = { onBack() },
+        modifier = Modifier
+            .padding(top = 30.dp, start = 10.dp)
+    ) {
+        Icon(
+            Icons.Filled.ArrowBack,
+            contentDescription = "Вернуться назад"
+        )
+    }
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -49,8 +67,10 @@ fun Authorization(
             modifier = Modifier.padding(bottom = 5.dp)
         )
         Column {
-            Text(text = "Логин",
-                modifier = Modifier.align(Alignment.Start))
+            Text(
+                text = "Логин",
+                modifier = Modifier.align(Alignment.Start)
+            )
             TextField(
                 value = login,
                 onValueChange = { login = it },
@@ -69,30 +89,41 @@ fun Authorization(
                 value = password,
                 onValueChange = { password = it },
                 label = { Text(text = "Пароль") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                modifier = Modifier.padding(bottom = 5.dp)
             )
         }
 
-        Row(modifier = Modifier.padding(8.dp)){
-            Button(onClick = {onListProduct()}) {
+        Row{
+            Button(
+                onClick = { onListProduct()},
+                modifier = Modifier.padding(end = 100.dp)
+            ) {
                 Text(text = "Ок")
             }
-            Button(onClick = {onRegistration()}) {
+
+            Button(onClick = { onRegistration() }
+            ) {
                 Text(text = "Регистрация")
             }
         }
-
     }
 }
 
 @Composable
-fun Registration(
-    onAuthorization : () -> Unit
-) {
+fun Registration(onAuthorization : () -> Unit) {
     var login by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var rememberPassword by remember { mutableStateOf("") }
 
+    Button(
+        onClick = {onAuthorization()},
+        modifier = Modifier
+            .padding(top = 30.dp, start = 10.dp)
+        ) {
+        Icon(Icons.Filled.ArrowBack,
+            contentDescription = "Вернуться назад")
+    }
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -136,13 +167,12 @@ fun Registration(
                 value = rememberPassword,
                 onValueChange = { rememberPassword = it },
                 label = { Text(text = "Подтвердите пароль") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                modifier = Modifier.padding(bottom = 5.dp)
             )
         }
         Button(
-            onClick = {onAuthorization()},
-            modifier = Modifier
-                .padding(8.dp)
+            onClick = {onAuthorization()}
         ){
             Text(text = "Ок")
         }
@@ -152,53 +182,61 @@ fun Registration(
 
 
 @Composable
-fun ListProduct(onPrintProduct : () -> Unit) {
-    var products = listOf(
-        "творог",
-        "не хочу",
-        "миньон",
-        "банан",
-        "ок",
-        "шапка",
-        "варежки?",
-        "можно и санки купить!?",
-        "а так же сникерс!!!!",
-        "жаропонижающие таблетки"
+fun ListProduct(
+    onPrintProduct : (String, Int) -> Unit,
+    onAuthorization: () -> Unit) {
+    var products = mapOf(
+        "творог" to 209,
+        "не хочу" to 123,
+        "миньон" to 52,
+        "банан" to 62,
+        "ок" to 72,
+        "шапка" to 82,
+        "варежки?" to 92,
+        "можно и санки купить!?" to 102,
+        "а так же сникерс!!!!" to 112,
+        "жаропонижающие таблетки" to 122
     )
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(top = 30.dp, start = 10.dp)
     ){
+        Button(onClick = {onAuthorization()}) {
+            Icon(Icons.Filled.ArrowBack,
+                contentDescription = "Вернуться назад")
+        }
         Text(
-            text = "Список товаров",
+            text = "Список товаров:",
             fontSize = 25.sp
         )
-        products.forEach { product ->
-            Text(text = product,
-                modifier = Modifier
-                    .clickable{onPrintProduct()}
-            )
+        products.forEach { (productName, productPrice) ->
+            Row(){
+                Text(text = " - $productName, $productPrice",
+                    modifier = Modifier
+                        .clickable{onPrintProduct(productName, productPrice)}
+                )
+            }
         }
     }
 }
 
 @Composable
-fun PrintProduct(productName : String, productPrice : Int) {
-
+fun PrintProduct(
+    onListProduct: () -> Unit,
+    productName : String, productPrice : Int
+){
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(top = 30.dp, start = 10.dp)
     ){
+        Button(onClick = {onListProduct()}) {
+            Icon(Icons.Filled.ArrowBack,
+                contentDescription = "Вернуться назад")
+        }
         Text(text = "Товар", fontSize = 25.sp)
         Text(text = "Название: ${productName}")
         Text(text = "Цена: ${productPrice}")
     }
-}
-
-@Preview
-@Composable
-fun PrintProductPreview() {
-    PrintProduct("", 0)
 }
 
 

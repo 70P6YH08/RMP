@@ -41,6 +41,7 @@ fun NavBar() {
     NavHost(navController, startDestination = Screens.AUTHORIZATION.route) {
         composable("authorization") {
             Authorization(
+                onBack = {navController.popBackStack()},
                 onListProduct = { navController.navigate("products") },
                 onRegistration = { navController.navigate("registration") }
             )
@@ -53,11 +54,22 @@ fun NavBar() {
 
         composable("products") {
             ListProduct(
-                onPrintProduct = {navController.navigate("product/{id}")}
+                onAuthorization = {navController.navigate("authorization")},
+                onPrintProduct = {nameProduct, priceProduct ->
+                    navController.navigate("product/$nameProduct/$priceProduct")}
             )
         }
-        composable("product/{id}") {
-            PrintProduct("Егор", 120)
+
+        composable("product/{nameProduct}/{priceProduct}",
+            arguments = listOf(
+                navArgument("nameProduct"){type = NavType.StringType},
+                navArgument("priceProduct"){type = NavType.IntType}
+            )
+        ) { stack ->
+            val nameProduct = stack.arguments?.getString("nameProduct")!!
+            val priceProduct = stack.arguments?.getInt("priceProduct")!!
+            PrintProduct(onListProduct = {navController.navigate("products")},
+                nameProduct, priceProduct)
         }
     }
 }

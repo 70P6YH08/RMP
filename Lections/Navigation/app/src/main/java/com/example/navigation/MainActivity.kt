@@ -88,6 +88,22 @@ fun NavRoot(){
 //    }
 //}
 
+
+@Composable
+fun Home(){
+    Text("Главная")
+}
+
+@Composable
+fun Profile(id:Int = 0){
+    Text("Профиль: $id")
+}
+
+@Composable
+fun Settings(){
+    Text("Настройки")
+}
+
 //@Composable
 //fun TrueNavBar(navController: NavController){
 //    Row(Modifier.fillMaxSize()){
