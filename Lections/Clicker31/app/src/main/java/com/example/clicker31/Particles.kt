@@ -4,6 +4,11 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Canvas
@@ -42,7 +47,7 @@ data class Particle(
 
 @Composable
 fun ParticleAnimation(particles: MutableList<Particle>){
-
+    var invalidate by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
         while (true){
             delay(16L) //16 милисекунд = 60 кадров в секунду
@@ -50,31 +55,34 @@ fun ParticleAnimation(particles: MutableList<Particle>){
                 it.update()
                 it.lifetime <= 0
             }
+            invalidate = !invalidate
         }
     }
 
-    var textMeasurer = rememberTextMeasurer()
+    val textMeasurer = rememberTextMeasurer()
 
     Canvas(modifier = Modifier.fillMaxSize()){
-        for(part in particles){
-            val text = textMeasurer.measure(
-                text = part.letter,
-                cthulhuTextStyle
-            )
+        invalidate.let{
+            for(part in particles){
+                val text = textMeasurer.measure(
+                    text = part.letter,
+                    cthulhuTextStyle
+                )
 
-            drawText(
-                text,
-                color = Color(
-                    0.38f,
-                    0.96f,
-                    0.86f,
-                    part.alpha
-                ),
-                topLeft = Offset(part.x, part.y),
-                shadow = Shadow(Color.Black,
-                    Offset(x = 5f, y = 5f), //дальность теней
-                    blurRadius = 10f)
-            )
+                drawText(
+                    text,
+                    color = Color(
+                        0.38f,
+                        0.96f,
+                        0.86f,
+                        part.alpha
+                    ),
+                    topLeft = Offset(part.x, part.y),
+                    shadow = Shadow(Color.Black,
+                        Offset(x = 5f, y = 5f), //дальность теней
+                        blurRadius = 10f)
+                )
+            }
         }
     }
 }
