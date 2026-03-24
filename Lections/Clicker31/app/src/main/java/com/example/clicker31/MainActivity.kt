@@ -33,11 +33,14 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateMapOf
@@ -56,14 +59,18 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.layout.positionOnScreen
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.clicker31.ui.theme.Clicker31Theme
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -86,12 +93,19 @@ fun ClickerGame(vm: GameViewModel = viewModel()){
         1 to PageData("Shop", Icons.Default.ShoppingCart)
     )}
     val corutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(Unit){
+        while(true){
+            delay(1000)
+            vm.onAutoClick()
+        }
+    }
+
     Clicker31Theme {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             topBar = {
-                Column(
-                    Modifier
+                Column(Modifier
                         .statusBarsPadding()
                         .fillMaxWidth()
                         .height(100.dp)
@@ -106,7 +120,7 @@ fun ClickerGame(vm: GameViewModel = viewModel()){
                         color = MaterialTheme.colorScheme.onPrimary
                     )
                     Text(
-                        text = vm.score.toString(),
+                        "%.2f".format(vm.score),
                         textAlign = TextAlign.Center,
                         fontSize = 30.sp,
                         color = MaterialTheme.colorScheme.onPrimary
@@ -164,16 +178,32 @@ fun ClickerGame(vm: GameViewModel = viewModel()){
 }
 
 @Composable
-fun ShopScreen(vm: GameViewModel = viewModel()){
+fun ShopScreen(vm: GameViewModel){
     Column(modifier = Modifier.fillMaxSize()){
-        Button({}){
-            Text(text = "кнопка1")
-        }
-        Button({}){
-            Text(text = "кнопка2")
-        }
-        Button({}){
-            Text(text = "кнопка3")
+        vm.upgrades.forEach { (type, upgrade) ->
+            Card(Modifier
+                .fillMaxWidth()
+                .padding(10.dp)
+                .clickable{vm.onUpgrade(upgrade)}
+            ){
+                Text(text = type.title,
+                    fontSize = 25.sp,
+                    modifier = Modifier
+                        .padding(5.dp)
+                )
+                Text(text = "${upgrade.level} lv. Значение %.2f"
+                        .format(upgrade.currentValue()),
+                    fontSize = 25.sp,
+                    modifier = Modifier
+                        .padding(5.dp)
+                )
+                Text(text = "Стоимость: %.2f"
+                    .format(upgrade.currentCost()),
+                    fontSize = 25.sp,
+                    modifier = Modifier
+                        .padding(5.dp)
+                )
+            }
         }
     }
 }
@@ -197,7 +227,7 @@ fun GameScreen(vm : GameViewModel){
 //            .clickable{
 //
 //            }
-            .onGloballyPositioned{
+            .onGloballyPositioned {
                 buttonPosition = it.positionInParent()
             }
             .pointerInput(Unit) {
@@ -205,7 +235,7 @@ fun GameScreen(vm : GameViewModel){
                     while (true) {
                         awaitPointerEventScope {
                             val down = awaitFirstDown()
-                            val pos = down.position+buttonPosition
+                            val pos = down.position + buttonPosition
                             isPressed = true
                             vm.onTap()
                             repeat(5) {
@@ -234,5 +264,26 @@ fun GameScreen(vm : GameViewModel){
             )
         }
         ParticleAnimation(particles)
+    }
+}
+
+@Composable
+fun ApplicationLifeTimeObserver(onExit: () -> Unit){
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    //LaunchedEffect при запуске, а DisposableEffect при уничтожении объекта
+    DisposableEffect(lifecycleOwner){
+        val observer = object : DefaultLifecycleObserver{
+            override fun onStop(owner: LifecycleOwner) {
+                super.onStop(owner)
+            }
+            override fun onDestroy(owner: LifecycleOwner) {
+                super.onDestroy(owner)
+            }
+            override fun onPause(owner: LifecycleOwner) {
+                super.onPause(owner)
+            }
+        }
+        Unit
     }
 }
