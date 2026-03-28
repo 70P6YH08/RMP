@@ -31,6 +31,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -74,6 +75,7 @@ import com.example.clicker31.ui.theme.Clicker31Theme
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -103,6 +105,29 @@ fun ClickerGame(vm: GameViewModel = viewModel()){
         }
     }
 
+    var showDialog by remember { mutableStateOf(false)}
+    var offlineIncome by remember {mutableStateOf(BigDecimal(0))}
+
+    LaunchedEffect(Unit){
+        offlineIncome = vm.calculateOfflineIncome().await()
+        showDialog = offlineIncome > BigDecimal(0)
+        vm.score += offlineIncome
+    }
+
+    if(showDialog){
+        AlertDialog(
+            onDismissRequest = {showDialog = false},
+            title = {Text(text = "С возвращением")},
+            text = {Text(text = "Последовательность собрали ${offlineIncome.formatNumber()} душ, пока вы отсутствовали")},
+            confirmButton = {
+                Button({showDialog = false}
+                ){
+                    Text(text = "Ктулху фхтагн")
+                }
+            }
+        )
+    }
+
     Clicker31Theme {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
@@ -122,7 +147,7 @@ fun ClickerGame(vm: GameViewModel = viewModel()){
                         color = MaterialTheme.colorScheme.onPrimary
                     )
                     Text(
-                        "%.2f".format(vm.score),
+                        vm.score.formatNumber(),
                         textAlign = TextAlign.Center,
                         fontSize = 30.sp,
                         color = MaterialTheme.colorScheme.onPrimary

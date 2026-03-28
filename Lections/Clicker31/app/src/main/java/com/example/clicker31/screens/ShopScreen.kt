@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.clicker31.GameViewModel
+import com.example.clicker31.formatNumber
 import kotlin.collections.component1
 import kotlin.collections.component2
 
@@ -29,14 +30,12 @@ fun ShopScreen(vm: GameViewModel){
                     modifier = Modifier
                         .padding(5.dp)
                 )
-                Text(text = "${upgrade.level} lv. Значение %.2f"
-                    .format(upgrade.currentValue()),
+                Text(text = "${upgrade.level} lv. Значение: ${vm.score.formatNumber()}",
                     fontSize = 25.sp,
                     modifier = Modifier
                         .padding(5.dp)
                 )
-                Text(text = "Стоимость: %.2f"
-                    .format(upgrade.currentCost()),
+                Text(text = "Стоимость: ${vm.score.formatNumber()}",
                     fontSize = 25.sp,
                     modifier = Modifier
                         .padding(5.dp)
