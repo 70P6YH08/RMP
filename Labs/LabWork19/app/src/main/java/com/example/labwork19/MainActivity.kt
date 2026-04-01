@@ -59,7 +59,7 @@ class MainActivity : ComponentActivity() {
 //                ProductInfoCardVertical(product = products) //1
 //                ProductInfoLazyColumn(product = products) //2, 4
 //                ProductInfoLazyRow(product = products) //3
-//                ProductVerticalGrid(product = products) //5
+                ProductVerticalGrid(product = products) //5
 //                ProductHorizontalGrid(product = products) //5
             }
         }

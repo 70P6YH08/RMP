@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-
+            NavRoot()
         }
     }
 }
@@ -89,21 +89,21 @@ fun NavRoot(){
 //}
 
 
-@Composable
-fun Home(){
-    Text("Главная")
-}
-
-@Composable
-fun Profile(id:Int = 0){
-    Text("Профиль: $id")
-}
-
-@Composable
-fun Settings(){
-    Text("Настройки")
-}
-
+//@Composable
+//fun Home(){
+//    Text("Главная")
+//}
+//
+//@Composable
+//fun Profile(id:Int = 0){
+//    Text("Профиль: $id")
+//}
+//
+//@Composable
+//fun Settings(){
+//    Text("Настройки")
+//}
+//
 //@Composable
 //fun TrueNavBar(navController: NavController){
 //    Row(Modifier.fillMaxSize()){
@@ -119,11 +119,11 @@ fun Settings(){
 //    }
 //}
 
-enum class Screens(val route: String){
-    HOME("home"),
-    PROFILE("profile"),
-    SETTINGS("settings"),
-}
+//enum class Screens(val route: String){
+//    HOME("home"),
+//    PROFILE("profile"),
+//    SETTINGS("settings"),
+//}
 
 //sealed class Screens1(val route: String){
 //    object Home : Screens1("home")
@@ -136,13 +136,13 @@ fun NavBar(onClickHome: () -> Unit,
             onClickProfile: () -> Unit,
            onClickSettings: () -> Unit){
     Row(Modifier.fillMaxSize()){
-        Button({onClickHome}) {
+        Button({onClickHome()}) {
             Text("Главная")
         }
-        Button({onClickProfile}) {
+        Button({onClickProfile()}) {
             Text("Профиль")
         }
-        Button({onClickSettings}) {
+        Button({onClickSettings()}) {
             Text("Настройки")
         }
     }

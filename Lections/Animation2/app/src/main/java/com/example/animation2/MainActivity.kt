@@ -51,14 +51,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Animation2Theme {
-                Scaffold(modifier = Modifier.fillMaxSize().padding(top=50.dp)) {
-                    Column()
-                    {
 //                        VisibilityAnimationExample()
 //                        UpdateTransitionExample()
-                        InfiniteTransitionExample()
-                    }
-                }
+                InfiniteTransitionExample()
             }
         }
     }
