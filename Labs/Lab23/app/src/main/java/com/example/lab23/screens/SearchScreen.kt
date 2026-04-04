@@ -1,4 +1,4 @@
-package com.example.labwork23.screens
+package com.example.lab23.screens
 
 import androidx.compose.animation.core.withInfiniteAnimationFrameMillis
 import androidx.compose.foundation.BorderStroke
@@ -57,7 +57,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.FontScaling
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.labwork23.R
+import com.example.lab23.R
 
 
 val list = listOf(
@@ -138,13 +138,11 @@ fun Search() {
                                     fontSize = 20.sp,
                                     modifier = Modifier
                                         .padding(bottom = 5.dp),
-                                    color = MaterialTheme.colorScheme.onSecondaryContainer,
-                                    style = MaterialTheme.typography.bodyLarge
+                                    color = MaterialTheme.colorScheme.onSecondaryContainer
                                 )
                                 Text(
                                     text = "${item.name}",
-                                    color = MaterialTheme.colorScheme.errorContainer,
-                                    style = MaterialTheme.typography.bodySmall
+                                    color = MaterialTheme.colorScheme.errorContainer
                                 )
                             }
                         }

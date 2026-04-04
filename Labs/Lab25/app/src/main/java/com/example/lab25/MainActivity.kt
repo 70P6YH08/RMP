@@ -1,9 +1,12 @@
 package com.example.lab25
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -13,15 +16,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.isImeVisible
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -41,12 +38,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.documentfile.provider.DocumentFile
 import java.io.File
 
 class MainActivity : ComponentActivity() {
@@ -56,7 +53,8 @@ class MainActivity : ComponentActivity() {
         setContent {
 //            LicenseAgreementScreen()
 //            Registration()
-            Notes()
+//            Notes()
+            ExternalFiles()
         }
     }
 }
@@ -308,5 +306,67 @@ fun Notes() {
                 }
             }
         }
+    }
+}
+
+@Composable
+fun ExternalFiles() {
+    var name by remember { mutableStateOf("") }
+
+    var buttonSaveState by remember { mutableStateOf(true) }
+    var buttonOpenState by remember { mutableStateOf(true) }
+
+    val context = LocalContext.current
+
+    var path by remember { mutableStateOf<Uri?>(null) }
+
+    val open = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ){ uri ->
+        path = uri
+    }
+
+    val docFile = DocumentFile.fromSingleUri(context, path)?.name
+
+    val save = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.CreateDocument()
+    ){ uri ->
+        path = uri
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 80.dp, bottom = 40.dp)
+    ) {
+
+        Row(
+            modifier = Modifier.padding(horizontal = 10.dp)
+        ){
+            Button(
+                onClick = {
+                    open.launch("notes/*")
+                },
+                enabled = buttonOpenState,
+                modifier = Modifier
+                    .padding(end = 10.dp)
+            ) {
+                Text(text = "Открыть")
+            }
+
+            Button(
+                onClick = {
+                    open.launch("notes/*")
+                },
+                enabled = buttonSaveState
+            ) {
+                Text(text = "Сохранить")
+            }
+        }
+
+        Spacer(modifier = Modifier.padding(bottom = 5.dp))
+
+
+        Text(text = docFile.readText())
     }
 }

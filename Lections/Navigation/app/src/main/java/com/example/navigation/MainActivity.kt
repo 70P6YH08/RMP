@@ -136,13 +136,13 @@ fun NavBar(onClickHome: () -> Unit,
             onClickProfile: () -> Unit,
            onClickSettings: () -> Unit){
     Row(Modifier.fillMaxSize()){
-        Button({onClickHome()}) {
+        Button({onClickHome}) {
             Text("Главная")
         }
-        Button({onClickProfile()}) {
+        Button({onClickProfile}) {
             Text("Профиль")
         }
-        Button({onClickSettings()}) {
+        Button({onClickSettings}) {
             Text("Настройки")
         }
     }
