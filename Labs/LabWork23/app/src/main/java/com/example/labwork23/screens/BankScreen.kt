@@ -47,6 +47,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlin.concurrent.timer
 import kotlin.random.Random
 
 @Composable
@@ -60,17 +61,19 @@ fun Bank() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 5.dp)
+            .padding(10.dp)
+            .background(MaterialTheme.colorScheme.background)
+
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth(1f)
-                .fillMaxHeight(0.6f)
+                .fillMaxHeight(6/10f)
                 .border(
-                    BorderStroke(2.dp, color = Color.DarkGray),
+                    BorderStroke(2.dp, color = MaterialTheme.colorScheme.onTertiary),
                     shape = RoundedCornerShape(40.dp)
                 )
-                .clickable {}
+                .background(MaterialTheme.colorScheme.secondary, RoundedCornerShape(40.dp))
         ) {
             Box(
                 modifier = Modifier
@@ -81,23 +84,29 @@ fun Bank() {
                         .fillMaxWidth()
                 ) {
                     Text(
-                        text = "Магаз-банк",
+                        text = "Magaz-bank",
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onBackground,
+                        color = MaterialTheme.colorScheme.primary,
                         style = MaterialTheme.typography.bodyLarge
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     BadgedBox(
                         badge = {
                             Badge(
-                                contentColor = MaterialTheme.colorScheme.inverseSurface,
-                                containerColor = MaterialTheme.colorScheme.onTertiaryContainer
+                                contentColor = MaterialTheme.colorScheme.primary,
+                                containerColor = MaterialTheme.colorScheme.onPrimary,
+                                modifier = Modifier
+                                    .border(
+                                        BorderStroke(2.dp, color = MaterialTheme.colorScheme.onTertiary),
+                                        shape = CircleShape
+                                    )
+                                    .background(MaterialTheme.colorScheme.onPrimary, CircleShape)
                             ) {
                                 Text(
                                     text = randNum.value.toString(),
-                                    color = MaterialTheme.colorScheme.outline,
-                                    style = MaterialTheme.typography.bodySmall
+                                    color = MaterialTheme.colorScheme.primary,
+                                    style = MaterialTheme.typography.labelSmall
                                 )
                             }
                         }
@@ -117,8 +126,6 @@ fun Bank() {
                                 Badge {
                                     Text(
                                         text = randNum.value.toString(),
-                                        color = MaterialTheme.colorScheme.outline,
-                                        style = MaterialTheme.typography.bodyLarge
                                     )
                                 }
                             }
@@ -144,16 +151,18 @@ fun Bank() {
                             .fillMaxWidth(0.5f)
                             .fillMaxHeight()
                             .border(
-                                BorderStroke(2.dp, color = Color.DarkGray),
+                                BorderStroke(2.dp, color = MaterialTheme.colorScheme.onTertiary),
                                 shape = RoundedCornerShape(20.dp)
                             )
-                            .clickable {}
+                            .background(MaterialTheme.colorScheme.onPrimary, RoundedCornerShape(20.dp))
+
                     ) {
                         Text(
-                            text = "Скидка в магазе!!!",
+                            text = "Discount in Magaz!!!",
                             modifier = Modifier
                                 .padding(start = 20.dp, top = 15.dp),
-                            color = MaterialTheme.colorScheme.onTertiary
+                            style = MaterialTheme.typography.headlineLarge
+
                         )
                         Row(
                             modifier = Modifier
@@ -169,9 +178,8 @@ fun Bank() {
                             ) {
                                 Text(
                                     text = "20",
-                                    fontSize = 100.sp,
-                                    color = MaterialTheme.colorScheme.onSecondaryContainer,
-                                    style = MaterialTheme.typography.bodyLarge
+                                    color = MaterialTheme.colorScheme.error,
+                                    style = MaterialTheme.typography.displayLarge
                                 )
                             }
                             Column(
@@ -183,8 +191,7 @@ fun Bank() {
                             ) {
                                 Text(
                                     text = "%",
-                                    fontSize = 30.sp,
-                                    color = MaterialTheme.colorScheme.onBackground,
+                                    color = MaterialTheme.colorScheme.error,
                                     style = MaterialTheme.typography.headlineLarge
                                 )
                             }
@@ -202,28 +209,26 @@ fun Bank() {
                                 .fillMaxWidth()
                                 .fillMaxHeight(0.322f)
                                 .border(
-                                    BorderStroke(2.dp, color = Color.DarkGray),
+                                    BorderStroke(2.dp, color = MaterialTheme.colorScheme.onTertiary),
                                     shape = RoundedCornerShape(20.dp)
                                 )
-                                .clickable {},
+                                .clickable {}
+                                .background(MaterialTheme.colorScheme.onPrimary, RoundedCornerShape(20.dp)),
                             verticalArrangement = Arrangement.Center
                         ) {
                             Text(
-                                text = "Траты за месяц",
-                                fontSize = 10.sp,
+                                text = "Monthly expenses",
                                 modifier = Modifier
                                     .padding(start = 10.dp),
-                                color = MaterialTheme.colorScheme.error,
-                                style = MaterialTheme.typography.labelSmall
+                                color = MaterialTheme.colorScheme.primary,
+                                style = MaterialTheme.typography.bodyMedium
                             )
                             Text(
-                                text = "${randSum.value.toString()} $",
-                                fontSize = 12.sp,
+                                text = "${randSum.value} $",
                                 fontWeight = FontWeight.Bold,
                                 modifier = Modifier
                                     .padding(start = 10.dp),
-                                color = MaterialTheme.colorScheme.error,
-                                style = MaterialTheme.typography.labelSmall
+                                style = MaterialTheme.typography.labelMedium
                             )
                         }
                         Spacer(modifier = Modifier.padding(bottom = 5.dp))
@@ -235,18 +240,18 @@ fun Bank() {
                                     .fillMaxWidth(0.49f)
                                     .fillMaxHeight(0.5f)
                                     .border(
-                                        BorderStroke(2.dp, color = Color.DarkGray),
+                                        BorderStroke(2.dp, color = MaterialTheme.colorScheme.onTertiary),
                                         shape = RoundedCornerShape(20.dp)
                                     )
-                                    .clickable {},
+                                    .clickable {}
+                                    .background(MaterialTheme.colorScheme.onPrimary, RoundedCornerShape(20.dp)),
                                 verticalArrangement = Arrangement.Center
                             ) {
                                 Text(
-                                    text = "Оплатить QR-кодом",
+                                    text = "Pay with\na QR code",
                                     fontSize = 10.sp,
                                     modifier = Modifier
                                         .padding(10.dp),
-                                    color = MaterialTheme.colorScheme.surfaceVariant,
                                     style = MaterialTheme.typography.labelSmall
                                 )
                             }
@@ -256,18 +261,17 @@ fun Bank() {
                                     .fillMaxWidth()
                                     .fillMaxHeight(0.5f)
                                     .border(
-                                        BorderStroke(2.dp, color = Color.DarkGray),
+                                        BorderStroke(2.dp, color = MaterialTheme.colorScheme.onTertiary),
                                         shape = RoundedCornerShape(20.dp)
                                     )
-                                    .clickable {},
+                                    .clickable {}
+                                    .background(MaterialTheme.colorScheme.onPrimary, RoundedCornerShape(20.dp)),
                                 verticalArrangement = Arrangement.Center
                             ) {
                                 Text(
-                                    text = "Переводы\nи платежи",
-                                    fontSize = 10.sp,
+                                    text = "Transfers\nand payments",
                                     modifier = Modifier
                                         .padding(10.dp),
-                                    color = MaterialTheme.colorScheme.surfaceVariant,
                                     style = MaterialTheme.typography.labelSmall
                                 )
                             }
@@ -279,22 +283,23 @@ fun Bank() {
                                 .fillMaxWidth()
                                 .fillMaxHeight(1f)
                                 .border(
-                                    BorderStroke(2.dp, color = Color.DarkGray),
+                                    BorderStroke(2.dp, color = MaterialTheme.colorScheme.onTertiary),
                                     shape = RoundedCornerShape(20.dp)
                                 )
-                                .clickable {},
+                                .clickable {}
+                                .background(MaterialTheme.colorScheme.onPrimary, RoundedCornerShape(20.dp)),
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center
                         ) {
                             Icon(
                                 Icons.Filled.Add,
-                                contentDescription = ""
+                                contentDescription = "",
+                                tint = MaterialTheme.colorScheme.error
                             )
                             Text(
-                                text = "Пополнить кошелёк",
-                                fontSize = 10.sp,
-                                color = MaterialTheme.colorScheme.inverseOnSurface,
-                                style = MaterialTheme.typography.labelSmall
+                                text = "Top up wallet",
+                                color = MaterialTheme.colorScheme.primary,
+                                style = MaterialTheme.typography.bodyMedium
                             )
                         }
                     }
@@ -303,15 +308,15 @@ fun Bank() {
                 Spacer(modifier = Modifier.padding(bottom = 10.dp))
                 Column(
                     modifier = Modifier
-                        .padding(top = 250.dp)
+                        .padding(top = 300.dp)
                         .fillMaxHeight()
                         .fillMaxWidth()
                         .border(
-                            BorderStroke(2.dp, color = Color.DarkGray),
-                            shape = RoundedCornerShape(40.dp)
+                            BorderStroke(2.dp, color = MaterialTheme.colorScheme.onTertiary),
+                            shape = RoundedCornerShape(20.dp)
                         )
-                        .clickable {}
-                ) {
+                        .background(MaterialTheme.colorScheme.onPrimary, RoundedCornerShape(20.dp)),
+                    ) {
                     Column(
                         modifier = Modifier
                             .padding(20.dp)
@@ -320,25 +325,23 @@ fun Bank() {
                         Text(
                             text = "${randBalance.value} $",
                             fontSize = 30.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.primary,
                             style = MaterialTheme.typography.headlineLarge
                         )
                         Text(
-                            text = "Баланс кошелька",
-                            fontSize = 16.sp,
+                            text = "Wallet balance",
                             color = MaterialTheme.colorScheme.primary,
-                            style = MaterialTheme.typography.bodyLarge
+                            style = MaterialTheme.typography.headlineLarge
                         )
                         Row(
                             modifier = Modifier
                                 .fillMaxSize()
-                                .padding(top = 10.dp)
+                                .padding(top = 20.dp)
                                 .border(
-                                    BorderStroke(2.dp, color = Color.DarkGray),
-                                    shape = RoundedCornerShape(40.dp)
+                                    BorderStroke(2.dp, color = MaterialTheme.colorScheme.onTertiary),
+                                    shape = RoundedCornerShape(20.dp)
                                 )
-                                .clickable {},
+                                .clickable {}
+                                .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(20.dp)),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Column(
@@ -347,9 +350,9 @@ fun Bank() {
                                     .padding(start = 10.dp)
                             ) {
                                 Text(
-                                    text = "Откройте карту банка",
-                                    color = MaterialTheme.colorScheme.onSecondary,
-                                    style = MaterialTheme.typography.bodyLarge
+                                    text = "Open a bank card",
+                                    color = MaterialTheme.colorScheme.primary,
+                                    style = MaterialTheme.typography.bodyMedium
                                 )
                             }
                             Column(
@@ -358,7 +361,11 @@ fun Bank() {
                                     .padding(end = 10.dp),
                                 horizontalAlignment = Alignment.End
                             ) {
-                                Icon(Icons.Filled.Add, "")
+                                Icon(
+                                    Icons.Filled.Add,
+                                    contentDescription = "",
+                                    tint = MaterialTheme.colorScheme.error
+                                )
                             }
                         }
                     }
@@ -370,20 +377,15 @@ fun Bank() {
             modifier = Modifier
                 .fillMaxSize()
                 .border(
-                    BorderStroke(2.dp, color = Color.DarkGray),
+                    BorderStroke(2.dp, color = MaterialTheme.colorScheme.onTertiary),
                     shape = RoundedCornerShape(40.dp)
                 )
-                .clickable {}
+                .background(MaterialTheme.colorScheme.secondary, RoundedCornerShape(40.dp)),
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxHeight()
                     .fillMaxWidth()
-                    .border(
-                        BorderStroke(2.dp, color = Color.DarkGray),
-                        shape = RoundedCornerShape(40.dp)
-                    )
-                    .clickable {}
             ) {
                 Box(
                     modifier = Modifier
@@ -394,9 +396,11 @@ fun Bank() {
                             .fillMaxWidth()
                             .fillMaxHeight(0.475f)
                             .border(
-                                BorderStroke(2.dp, color = Color.DarkGray),
-                                shape = RoundedCornerShape(40.dp)
+                                BorderStroke(2.dp, color = MaterialTheme.colorScheme.onTertiary),
+                                shape = RoundedCornerShape(20.dp)
                             )
+                            .clickable {}
+                            .background(MaterialTheme.colorScheme.onPrimary, RoundedCornerShape(20.dp))
                     ) {
                         Column(
                             modifier = Modifier
@@ -405,15 +409,13 @@ fun Bank() {
                             verticalArrangement = Arrangement.Center
                         ) {
                             Text(
-                                text = "Накопления",
-                                fontSize = 16.sp,
-                                color = MaterialTheme.colorScheme.onSecondary,
-                                style = MaterialTheme.typography.bodyLarge
+                                text = "Savings",
+                                style = MaterialTheme.typography.headlineLarge
                             )
                             Text(
                                 text = "${randSavings.value} $",
                                 fontSize = 35.sp,
-                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.primary,
                                 style = MaterialTheme.typography.headlineLarge
                             )
                         }
@@ -421,13 +423,15 @@ fun Bank() {
                     Spacer(modifier = Modifier.padding(bottom = 10.dp))
                     Column(
                         modifier = Modifier
-                            .padding(top = 125.dp)
+                            .padding(top = 145.dp)
                             .fillMaxWidth()
                             .fillMaxHeight()
                             .border(
-                                BorderStroke(2.dp, color = Color.DarkGray),
-                                shape = RoundedCornerShape(40.dp)
+                                BorderStroke(2.dp, color = MaterialTheme.colorScheme.onTertiary),
+                                shape = RoundedCornerShape(20.dp)
                             )
+                            .clickable {}
+                            .background(MaterialTheme.colorScheme.onPrimary, RoundedCornerShape(20.dp))
                     ) {
                         Column(
                             modifier = Modifier
@@ -436,15 +440,8 @@ fun Bank() {
                             verticalArrangement = Arrangement.Center
                         ) {
                             Text(
-                                text = "Сертификаты",
-                                fontSize = 35.sp,
-                                color = MaterialTheme.colorScheme.primary,
-                                style = MaterialTheme.typography.headlineLarge
-                            )
-                            Text(
-                                text = "и другое",
-                                fontSize = 35.sp,
-                                color = MaterialTheme.colorScheme.primary,
+                                text = "Certificates\nand more",
+                                fontSize = 28.sp,
                                 style = MaterialTheme.typography.headlineLarge
                             )
                         }

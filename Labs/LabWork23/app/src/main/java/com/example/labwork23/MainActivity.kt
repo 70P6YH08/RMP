@@ -52,7 +52,7 @@ import com.example.labwork23.ui.theme.LabWork23Theme
 import androidx.compose.material3.*
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import com.example.labwork23.ui.theme.ColorStyle
+//import com.example.labwork23.ui.theme.ColorStyle
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -60,14 +60,17 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            var isDarkTheme by remember { mutableStateOf(true) }
-            var isUserDarkTheme by remember { mutableStateOf(true) }
-            LabWork23Theme(darkTheme = isDarkTheme,
-                colorStyle = if (isUserDarkTheme)
-                    ColorStyle.USER
-                else
-                    ColorStyle.DEFAULT
+            var isDarkTheme by remember { mutableStateOf(false) }
+            var isUserDarkTheme by remember { mutableStateOf(false) }
+            LabWork23Theme(
+                darkTheme = isDarkTheme,
+                colorStyle = isUserDarkTheme
+//                colorStyle = if (isUserDarkTheme == true)
+//                    ColorStyle.USER
+//                else
+//                    ColorStyle.DEFAULT
             ) {
+
                 var currentScreen by remember { mutableStateOf("search") }
                 var dropDownMenuState by remember { mutableStateOf(false) }
                 Scaffold(
@@ -75,15 +78,19 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize(),
                     topBar = {
                         TopAppBar(
+                            colors = TopAppBarDefaults.topAppBarColors(
+                                containerColor = MaterialTheme.colorScheme.surface
+                            ),
                             title = {
                                 Text(
-                                    text = "Магаз",
+                                    text = "Magaz",
+                                    color = MaterialTheme.colorScheme.primary,
                                     style = MaterialTheme.typography.bodyLarge
                                 )
                             },
                             navigationIcon = {
                                 IconButton(
-                                    { dropDownMenuState = true }
+                                    onClick = { dropDownMenuState = true }
                                 ) {
                                     Icon(
                                         Icons.Filled.Menu,
@@ -120,24 +127,37 @@ class MainActivity : ComponentActivity() {
                 ) { innerPadding ->
                     DropdownMenu(
                         expanded = dropDownMenuState,
-                        onDismissRequest = { dropDownMenuState = false }
+                        onDismissRequest = { dropDownMenuState = false },
+                        containerColor = MaterialTheme.colorScheme.surface,
                     ) {
                         DropdownMenuItem(
-                            text = { Text("Поиск") },
+                            text = {Text(
+                                text = "Search",
+                                color = MaterialTheme.colorScheme.primary,
+                                style = MaterialTheme.typography.bodyMedium
+                            ) },
                             onClick = {
                                 currentScreen = "search"
                                 dropDownMenuState = false
                             }
                         )
                         DropdownMenuItem(
-                            text = { Text("Профиль") },
+                            text = { Text(
+                                text = "Profile",
+                                color = MaterialTheme.colorScheme.primary,
+                                style = MaterialTheme.typography.bodyMedium
+                            ) },
                             onClick = {
                                 currentScreen = "userprofile"
                                 dropDownMenuState = false
                             }
                         )
                         DropdownMenuItem(
-                            text = { Text("Банк") },
+                            text = { Text(
+                                text = "Bank",
+                                color = MaterialTheme.colorScheme.primary,
+                                style = MaterialTheme.typography.bodyMedium
+                            ) },
                             onClick = {
                                 currentScreen = "bank"
                                 dropDownMenuState = false

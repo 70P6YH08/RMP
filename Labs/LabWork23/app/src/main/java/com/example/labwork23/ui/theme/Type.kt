@@ -16,24 +16,24 @@ val CustomFont = FontFamily(
 val Typography = Typography(
     displayLarge = TextStyle(
         fontFamily = CustomFont,
-        fontSize = 57.sp,
+        fontSize = 100.sp,
         fontWeight = FontWeight.Normal
     ),
     headlineLarge = TextStyle(
         fontFamily = CustomFont,
-        fontSize = 32.sp,
+        fontSize = 18.sp,
         fontWeight = FontWeight.Bold
     ),
     bodyLarge = TextStyle(
         fontFamily = CustomFont,
-        fontSize = 16.sp
+        fontSize = 14.sp
     ),
     bodyMedium = TextStyle(
         fontFamily = CustomFont,
-        fontSize = 14.sp
+        fontSize = 12.sp
     ),
     labelSmall = TextStyle(
         fontFamily = CustomFont,
-        fontSize = 11.sp
+        fontSize = 9.sp
     )
 )

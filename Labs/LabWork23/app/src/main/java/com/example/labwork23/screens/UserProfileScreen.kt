@@ -3,6 +3,7 @@ package com.example.labwork23.screens
 import android.widget.Space
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -74,9 +75,8 @@ val nickname = listOf(
     "Семён_Слепаков_офигеть",
     "Джигурда_777",
     "Борода_Кек",
-    "ВайФай_Роскомнадзор",
+    "WIFI_RKN",
     "Гнойный_Панч",
-    "Мой_Ник_Забанен_НаХуй",
     "Liska_Lubov",
     "Мур_Мяу_Кисунька",
     "Сладкая_Вата",
@@ -108,30 +108,33 @@ class Tovar(
     val image : Int
 )
 val products = listOf(
-    Tovar("Нокиа", R.drawable.nokia),
-    Tovar("Коленька Наумов", R.drawable.kolyannaumov),
-    Tovar("Нуклеотиды", R.drawable.nukleotydy),
-    Tovar("Лев", R.drawable.lev),
-    Tovar("Оба одеты", R.drawable.obaodeti),
-    Tovar("Ега", R.drawable.ega),
+    Tovar("Nokia", R.drawable.nokia),
+    Tovar("Kolya Creeper2004", R.drawable.kolyannaumov),
+    Tovar("Nukleotydy", R.drawable.nukleotydy),
+    Tovar("Lion", R.drawable.lev),
+    Tovar("Both are dressed", R.drawable.obaodeti),
+    Tovar("S1mple", R.drawable.ega),
 )
 
 @Preview
 @Composable
 fun UserProfile(){
-
     Column(
         modifier = Modifier
-            .fillMaxSize()
+            .padding(10.dp)
+            .fillMaxWidth()
+            .fillMaxHeight(2/3f)
+            .background(MaterialTheme.colorScheme.background)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth(1f)
-                .fillMaxHeight(0.4f)
+                .fillMaxHeight(1/2f)
                 .border(
-                    BorderStroke(2.dp, color = Color.DarkGray),
+                    BorderStroke(2.dp, color = MaterialTheme.colorScheme.tertiary),
                     shape = RoundedCornerShape(40.dp)
                 )
+                .background(MaterialTheme.colorScheme.onPrimary, RoundedCornerShape(40.dp))
         ){
             Column(
                 modifier = Modifier
@@ -150,16 +153,15 @@ fun UserProfile(){
                 )
                 Text(
                     text = nickname.random(),
-                    fontSize = 21.sp,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onPrimary,
+                    color = MaterialTheme.colorScheme.primary,
                     style = MaterialTheme.typography.bodyLarge
                 )
                 Text(
                     text = numbersPhone.random(),
                     modifier = Modifier
                         .padding(bottom = 10.dp),
-                    color = MaterialTheme.colorScheme.onSecondary,
+                    color = MaterialTheme.colorScheme.onBackground,
                     style = MaterialTheme.typography.bodyLarge
                 )
                 Row(){
@@ -168,16 +170,18 @@ fun UserProfile(){
                             .width(80.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ){
-                        FloatingActionButton({}
+                        FloatingActionButton(
+                            {},
+                            containerColor = MaterialTheme.colorScheme.tertiary,
+                            contentColor = MaterialTheme.colorScheme.onTertiary
                         ){
                             Icon(Icons.Filled.AccountCircle, "")
                         }
                         Spacer(modifier = Modifier.padding(bottom = 5.dp))
                         Text(
-                            text = "Ваши данные",
-                            fontSize = 12.sp,
-                            color = MaterialTheme.colorScheme.onTertiary,
-                            style = MaterialTheme.typography.bodyLarge
+                            text = "My data",
+                            color = MaterialTheme.colorScheme.onBackground,
+                            style = MaterialTheme.typography.labelSmall
                         )
                     }
 
@@ -187,16 +191,18 @@ fun UserProfile(){
                             .width(80.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ){
-                        FloatingActionButton({}
+                        FloatingActionButton(
+                            {},
+                            containerColor = MaterialTheme.colorScheme.tertiary,
+                            contentColor = MaterialTheme.colorScheme.onTertiary
                         ){
                             Icon(Icons.Filled.Notifications, "")
                         }
                         Spacer(modifier = Modifier.padding(bottom = 5.dp))
                         Text(
-                            text = "Уведомления",
-                            fontSize = 12.sp,
-                            color = MaterialTheme.colorScheme.onTertiary,
-                            style = MaterialTheme.typography.bodyLarge
+                            text = "Notifications",
+                            color = MaterialTheme.colorScheme.onBackground,
+                            style = MaterialTheme.typography.labelSmall
                         )
                     }
                     Spacer(modifier = Modifier.weight(1f))
@@ -205,16 +211,18 @@ fun UserProfile(){
                             .width(80.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ){
-                        FloatingActionButton({}
+                        FloatingActionButton(
+                            {},
+                            containerColor = MaterialTheme.colorScheme.tertiary,
+                            contentColor = MaterialTheme.colorScheme.onTertiary
                         ){
                             Icon(Icons.Filled.Settings, "")
                         }
                         Spacer(modifier = Modifier.padding(bottom = 5.dp))
                         Text(
-                            text = "Настройки",
-                            fontSize = 12.sp,
-                            color = MaterialTheme.colorScheme.onTertiary,
-                            style = MaterialTheme.typography.bodyLarge
+                            text = "Settings",
+                            color = MaterialTheme.colorScheme.onBackground,
+                            style = MaterialTheme.typography.labelSmall
                         )
                     }
                 }
@@ -223,10 +231,10 @@ fun UserProfile(){
         Spacer(modifier = Modifier.padding(bottom = 10.dp))
         Column(
             modifier = Modifier
-                .fillMaxWidth(1f)
-                .fillMaxHeight(0.5f)
+                .background(MaterialTheme.colorScheme.onPrimary, RoundedCornerShape(40.dp))
+                .fillMaxWidth()
                 .border(
-                    BorderStroke(2.dp, color = MaterialTheme.colorScheme.onError),
+                    BorderStroke(2.dp, color = MaterialTheme.colorScheme.tertiary),
                     shape = RoundedCornerShape(40.dp)
                 )
         ){
@@ -236,10 +244,10 @@ fun UserProfile(){
                     .padding(15.dp)
             ){
                 Text(
-                    text = "Отзывы и вопросы: ",
+                    text = "Reviews and questions: ",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    color = MaterialTheme.colorScheme.onBackground,
                     style = MaterialTheme.typography.bodyLarge
                 )
                 LazyRow(
@@ -247,21 +255,22 @@ fun UserProfile(){
                 ){
                     items(products){ item ->
                         Card(
-                            border = BorderStroke(5.dp, Color.Green),
+                            border = BorderStroke(5.dp, MaterialTheme.colorScheme.onTertiary),
                             modifier = Modifier
                                 .padding(vertical = 5.dp, horizontal = 5.dp)
                                 .width(350.dp)
                                 .clickable{},
                             shape = RoundedCornerShape(0.dp),
                             colors = CardDefaults.cardColors(
-                                containerColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                                containerColor = MaterialTheme.colorScheme.secondary,
                                 contentColor = MaterialTheme.colorScheme.outline
                             ),
                             elevation = CardDefaults.cardElevation(focusedElevation = 30.dp)
                         ){
                             Row(
                                 modifier = Modifier
-                                    .fillMaxSize()
+                                    .fillMaxSize(),
+                                verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Image(
                                     modifier = Modifier
@@ -278,10 +287,10 @@ fun UserProfile(){
                                 ) {
                                     Text(
                                         text = item.name,
-                                        fontSize = 25.sp,
+                                        fontSize = 20.sp,
                                         modifier = Modifier
                                             .padding(bottom = 10.dp),
-                                        color = MaterialTheme.colorScheme.inversePrimary,
+                                        color = MaterialTheme.colorScheme.primary,
                                         style = MaterialTheme.typography.bodyLarge
                                     )
                                 }

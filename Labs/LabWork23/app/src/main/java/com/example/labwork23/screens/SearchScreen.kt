@@ -3,6 +3,7 @@ package com.example.labwork23.screens
 import androidx.compose.animation.core.withInfiniteAnimationFrameMillis
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -61,60 +62,69 @@ import com.example.labwork23.R
 
 
 val list = listOf(
-    Product("Пчела", 1.99, R.drawable.bee),
-    Product("Здание", 3252262.87, R.drawable.building),
-    Product("Автомобиль", 59000.00, R.drawable.car),
-    Product("Ребёнок", 1234567.99, R.drawable.child),
-    Product("Чипсы", 1.99, R.drawable.chips),
-    Product("Уголь", 0.69, R.drawable.coal),
-    Product("Ухо", 4000.00, R.drawable.ear),
-    Product("Горилла", 12000.00, R.drawable.gorilla),
-    Product("Каска", 3.59, R.drawable.helmet),
-    Product("Железо", 10.99, R.drawable.iron),
-    Product("Колян", 2.42, R.drawable.kolyanaumov),
-    Product("Лимон", 0.69, R.drawable.lemon),
-    Product("Карта", 5.29, R.drawable.map),
-    Product("Мясо", 3.97, R.drawable.meat),
-    Product("Деньги", 0.01, R.drawable.money),
-    Product("Тарелки", 2.01, R.drawable.plates),
-    Product("Роза", 9.98, R.drawable.rose),
-    Product("Силикон", 5400.95, R.drawable.silicone),
+    Product("Bee", 1.99, R.drawable.bee),
+    Product("Building", 3252262.87, R.drawable.building),
+    Product("Car", 59000.00, R.drawable.car),
+    Product("Child", 1234567.99, R.drawable.child),
+    Product("Chips", 1.99, R.drawable.chips),
+    Product("Coal", 0.69, R.drawable.coal),
+    Product("Ear", 4000.00, R.drawable.ear),
+    Product("Gorilla", 12000.00, R.drawable.gorilla),
+    Product("Helmet", 3.59, R.drawable.helmet),
+    Product("Iron", 10.99, R.drawable.iron),
+    Product("Kolyan", 2.42, R.drawable.kolyanaumov),
+    Product("Lemon", 0.69, R.drawable.lemon),
+    Product("Map", 5.29, R.drawable.map),
+    Product("Meat", 3.97, R.drawable.meat),
+    Product("Money", 0.01, R.drawable.money),
+    Product("Plates", 2.01, R.drawable.plates),
+    Product("Rose", 9.98, R.drawable.rose),
+    Product("Silicone", 5400.95, R.drawable.silicone),
     Product("Zxc", 21.99, R.drawable.zxc)
 )
 
 @Composable
 fun Search() {
     var searchString by remember { mutableStateOf("") }
-    Column{
-        Row(
+    Column(
+        modifier = Modifier
+            .padding(10.dp)
+    ) {
+        TextField(
+            value = searchString,
+            onValueChange = { searchString = it },
+            label = {
+                Text(
+                    text = "Search",
+                    color = MaterialTheme.colorScheme.primary,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 10.dp)
+                .padding(bottom = 5.dp)
                 .padding(horizontal = 5.dp)
-        ) {
-            TextField(
-                value = searchString,
-                onValueChange = { searchString = it },
-                label = { Text(text = "Поиск") },
-                modifier = Modifier
-                    .fillMaxWidth(),
-                singleLine = true
-            )
-        }
+                .background(color = Color.White, RoundedCornerShape(10.dp))
+                .border(
+                    BorderStroke(2.dp, color = MaterialTheme.colorScheme.tertiary),
+                    shape = RoundedCornerShape(10.dp)
+                ),
+            singleLine = true
+        )
         LazyVerticalStaggeredGrid(
             StaggeredGridCells.Adaptive(150.dp),
             Modifier.fillMaxSize()
         ) {
             items(list) { item ->
                 val nameItem = item.name.toLowerCase()
-                if (nameItem.contains(searchString)) {
+                if (nameItem.contains(searchString.toLowerCase())) {
                     Card(
-                        border = BorderStroke(2.dp, Color.DarkGray),
+                        border = BorderStroke(2.dp, MaterialTheme.colorScheme.tertiary),
                         modifier = Modifier
                             .padding(5.dp),
                         colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                            containerColor = MaterialTheme.colorScheme.secondary,
+                            contentColor = MaterialTheme.colorScheme.onSecondary
                         )
                     ) {
                         Image(
@@ -135,16 +145,15 @@ fun Search() {
                             ) {
                                 Text(
                                     text = "${item.price} $",
-                                    fontSize = 20.sp,
                                     modifier = Modifier
                                         .padding(bottom = 5.dp),
-                                    color = MaterialTheme.colorScheme.onSecondaryContainer,
-                                    style = MaterialTheme.typography.bodyLarge
+                                    color = MaterialTheme.colorScheme.primary,
+                                    style = MaterialTheme.typography.headlineLarge
                                 )
                                 Text(
-                                    text = "${item.name}",
-                                    color = MaterialTheme.colorScheme.errorContainer,
-                                    style = MaterialTheme.typography.bodySmall
+                                    text = item.name,
+                                    color = MaterialTheme.colorScheme.onBackground,
+                                    style = MaterialTheme.typography.bodyLarge
                                 )
                             }
                         }
@@ -154,7 +163,6 @@ fun Search() {
         }
     }
 }
-
 class Product(
     val name : String,
     val price : Double,
