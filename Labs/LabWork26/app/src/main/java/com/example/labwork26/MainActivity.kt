@@ -4,7 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -20,12 +24,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.labwork26.ui.theme.LabWork26Theme
+import kotlin.math.log
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,11 +58,24 @@ fun PrintUserInfo(viewModel: ListUsersViewModel = viewModel()) {
             .padding(horizontal = 10.dp)
             .fillMaxWidth()
     ) {
+        Text(
+            text = "Не все поля заполнены",
+            modifier = Modifier
+                .alpha(
+                    if (userLogin.isEmpty() ||
+                        userPassword.isEmpty() ||
+                        userEmail.isEmpty()
+                    )
+                        1f
+                    else
+                        0f
+                )
+        )
         TextField(
             value = userLogin,
             onValueChange = { userLogin = it },
             maxLines = 1,
-            label = {Text(text = "Login")},
+            label = { Text(text = "Login") },
             modifier = Modifier
                 .fillMaxWidth()
         )
@@ -63,7 +83,7 @@ fun PrintUserInfo(viewModel: ListUsersViewModel = viewModel()) {
             value = userPassword,
             onValueChange = { userPassword = it },
             maxLines = 1,
-            label = {Text(text = "Password")},
+            label = { Text(text = "Password") },
             modifier = Modifier
                 .fillMaxWidth()
         )
@@ -71,26 +91,45 @@ fun PrintUserInfo(viewModel: ListUsersViewModel = viewModel()) {
             value = userEmail,
             onValueChange = { userEmail = it },
             maxLines = 1,
-            label = {Text(text = "Email")},
+            label = { Text(text = "Email") },
             modifier = Modifier
                 .fillMaxWidth()
         )
         Button(
-            onClick = {viewModel.addUser()}
-        ){
+            onClick = {
+                viewModel.addUser(
+                    userLogin,
+                    userPassword,
+                    userEmail
+                )
+            },
+            enabled =
+                if (userLogin.isEmpty() ||
+                    userPassword.isEmpty() ||
+                    userEmail.isEmpty()
+                )
+                    false
+                else
+                    true
+        ) {
             Text(text = "Добавить")
         }
     }
 
     LazyColumn(
         modifier = Modifier
+            .fillMaxWidth()
             .padding(horizontal = 10.dp)
-            .padding(top = 250.dp)
+            .padding(top = 300.dp, bottom = 40.dp)
+            .border(border = BorderStroke(1.dp, Color.Green))
     ) {
         items(viewModel.users) { item ->
             Text(
                 text = item.login,
-                fontSize = 40.sp
+                fontSize = 40.sp,
+                modifier = Modifier
+                    .clickable {
+                    }
             )
         }
     }

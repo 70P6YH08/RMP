@@ -7,28 +7,36 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 
 class ListUsersViewModel : ViewModel(){
-    val users = mutableStateListOf<UserInfo>(
-        UserInfo("KOLYA", "naumov", "kn@gmail.com"),
-        UserInfo("SEMEN", "neveyaMen", "semagey@gmail.com"),
-        UserInfo("asd", "fgh", "hgfdsa@gmail.com"),
-        UserInfo("QWE", "RTY", "vladKuertov@gmail.com"),
-        UserInfo("123", "ERROR", "warning@gmail.com"),
-        UserInfo("ELEPHANT", "SLON", "slon@gmail.com"),
-        UserInfo("KOVRIK", "palaci", "csgo2@gmail.com"),
-        UserInfo("MOUSE", "ROT", "cheese@gmail.com"),
-        UserInfo("EAR", "uho", "bikycle@gmail.com"),
-        UserInfo("WORD", "microsoft", "fourRectangle@gmail.com"),
-        UserInfo("HELLOWOWOW", "gggggg", "ggwppepshneleWTF@gmail.com"),
-        UserInfo("KEYBOARD31", "sosiskasexbomba", "sane4kaAreYouRecordMe@gmail.com"),
-        UserInfo("RomanGeneral", "frej", "laboratory221@gmail.com"),
-        UserInfo("Ivan", "RMP_SP_PROGRAMMIST", "ha4@gmail.com"),
+    val users = mutableStateListOf(
+        User("KOLYA", "naumov", "kn@gmail.com"),
+        User("SEMEN", "neveyaMen", "semagey@gmail.com"),
+        User("asd", "fgh", "hgfdsa@gmail.com"),
+        User("QWE", "RTY", "vladKuertov@gmail.com"),
+        User("123", "ERROR", "warning@gmail.com"),
+        User("ELEPHANT", "SLON", "slon@gmail.com"),
+        User("KOVRIK", "palaci", "csgo2@gmail.com"),
+        User("MOUSE", "ROT", "cheese@gmail.com"),
+        User("EAR", "uho", "bikycle@gmail.com"),
+        User("WORD", "microsoft", "fourRectangle@gmail.com"),
+        User("HELLOWOWOW", "gggggg", "ggwppepshneleWTF@gmail.com"),
+        User("KEYBOARD31", "sosiskasexbomba", "sane4kaAreYouRecordMe@gmail.com"),
+        User("RomanGeneral", "frej", "laboratory221@gmail.com"),
+        User("Wendy", "Dipper", "truefalse@gmail.com"),
+        User("CJ", "GTA", "tenpeny@gmail.com"),
+        User("Gul", "anime1000_7", "atakatitanov@gmail.com"),
+        User("Arslanov", "FingalNabili", "deepseeker@gmail.com"),
+        User("AlexisTexas", "StarOf2000", "studentki@gmail.com"),
+        User("Kim", "Kim5WithPlus", "multfilm@gmail.com"),
+        User("Shon", "Barashek", "trava@gmail.com"),
+        User("Steve", "MinecraftBestGame", "cubic1_21_5@gmail.com"),
+        User("Alex", "Steve6edG1rl", "readyForA11@gmail.com"),
     )
 
-    var userLogin by mutableStateOf("")
-    var userPassword by mutableStateOf("")
-    var userEmail by mutableStateOf("")
+    fun addUser(userLogin : String, userPassword : String, userEmail : String){
+        users.add(User(userLogin, userPassword, userEmail))
+    }
 
-    fun addUser(){
-        users.add(UserInfo(userLogin, userPassword, userEmail))
+    fun getInfoByLogin(userLogin: String) : User?{
+        return users.find { it.login == userLogin }
     }
 }
