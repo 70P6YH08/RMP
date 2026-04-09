@@ -13,11 +13,16 @@ class UserViewModel : ViewModel(){
         User("Ega", "govno3308", "Весит 62 кило")
     )
 
-    var userLogin by mutableStateOf("")
-    var userPassword by mutableStateOf("")
-    var userInfo by mutableStateOf("")
+    fun addUser(login : String, password : String){
+        users.add(User(login, password, ""))
+    }
 
-    fun addUser(user: User){
-        users.add(user)
+    fun getUser(login: String, password: String) : User?{
+        return users.find { it.login == login && it.password == password}
+    }
+
+    fun updateUserInfo(login : String, newInfo : String){
+        val loginIndex = users.indexOfFirst{it.login == login}
+        users[loginIndex] = users[loginIndex].copy(info = newInfo)
     }
 }

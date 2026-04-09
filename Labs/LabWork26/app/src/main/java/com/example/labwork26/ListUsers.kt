@@ -39,4 +39,19 @@ class ListUsersViewModel : ViewModel(){
     fun getInfoByLogin(userLogin: String) : User?{
         return users.find { it.login == userLogin }
     }
+
+    fun updateUserByLogin(userLogin : String, newUserPassword : String, newUserEmail : String){
+        val loginIndex = users.indexOfFirst{it.login == userLogin}
+        users[loginIndex] = users[loginIndex].copy(password = newUserPassword, email = newUserEmail)
+    }
+
+//    fun deleteUserByLogin(userLogin : String){
+//        val loginIndex = users.indexOfFirst{it.login == userLogin}
+//        if (loginIndex != -1) users.removeAt(loginIndex)
+//    }
+    fun deleteUserByLogin(userLogin : String){
+        users.removeAll{it.login == userLogin}
+    }
+
+
 }

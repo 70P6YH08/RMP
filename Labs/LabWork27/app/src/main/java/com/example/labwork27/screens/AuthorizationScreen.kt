@@ -1,5 +1,6 @@
 package com.example.labwork27.screens
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,6 +17,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,16 +30,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.labwork27.UserViewModel
 
 @Composable
-fun Authorization() {
+fun Authorization(
+    vm : UserViewModel = viewModel(),
+    onRegistration : () -> Unit,
+    onProfile : (String, String) -> Unit,
+    onBack: () -> Unit
+) {
 
     var userLogin by remember { mutableStateOf("") }
     var userPassword by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
-            .padding(vertical = 50.dp, horizontal = 20.dp)
+            .padding(vertical = 50.dp, horizontal = 30.dp)
             .fillMaxWidth()
     ) {
         Row(
@@ -45,7 +54,9 @@ fun Authorization() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(
-                onClick = {},
+                onClick = {
+                    onBack()
+                },
             ) {
                 Icon(Icons.Filled.KeyboardArrowLeft, "")
             }
@@ -73,8 +84,16 @@ fun Authorization() {
                     Text(text = "Логин")
                 }
             },
+            maxLines = 1,
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor =if (userLogin.isNullOrEmpty()) {
+                    Color.Red
+                } else {
+                    Color.Green
+                }
+            )
         )
         Spacer(Modifier.padding(bottom = 10.dp))
         Text(
@@ -87,20 +106,39 @@ fun Authorization() {
             label = {
                 Text(text = "Пароль")
             },
+            maxLines = 1,
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = if (userPassword.isNullOrEmpty()) {
+                    Color.Red
+                } else {
+                    Color.Green
+                }
+            )
         )
         Spacer(Modifier.padding(bottom = 20.dp))
         Button(
-            onClick = {},
+            onClick = {
+                onProfile(userLogin, userPassword)
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(60.dp),
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Blue
-            )
-        ){
+            ),
+            enabled =
+                if (
+                    userLogin.isNullOrEmpty() ||
+                    userPassword.isNullOrEmpty()
+                ) {
+                    false
+                } else {
+                    true
+                }
+        ) {
             Text(
                 text = "Войти",
                 fontSize = 25.sp
@@ -110,7 +148,7 @@ fun Authorization() {
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
-        ){
+        ) {
             Text(
                 text = "Нет аккаунта?",
                 fontSize = 25.sp,
@@ -118,7 +156,9 @@ fun Authorization() {
                     .padding(bottom = 10.dp)
             )
             Button(
-                onClick = {},
+                onClick = {
+                    onRegistration()
+                },
                 modifier = Modifier
                     .fillMaxWidth(),
                 shape = RoundedCornerShape(8.dp),
@@ -126,7 +166,7 @@ fun Authorization() {
                     containerColor = Color.White,
                     contentColor = Color.Black
                 )
-            ){
+            ) {
                 Text(
                     text = "Перейти к регистрации",
                     fontSize = 25.sp

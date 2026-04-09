@@ -24,6 +24,7 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -45,25 +46,31 @@ import com.example.labwork27.User
 import com.example.labwork27.UserViewModel
 
 @Composable
-fun Registration() {
+fun Registration(
+    onAuthorization : () -> Unit,
+    onBack: () -> Unit,
+    vm : UserViewModel = viewModel()
+) {
 
     var userLogin by remember { mutableStateOf("") }
     var userPassword by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
-            .padding(vertical = 50.dp, horizontal = 20.dp),
+            .padding(vertical = 50.dp, horizontal = 30.dp),
     ) {
         Row(
             Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(
-                onClick = {},
+                onClick = {
+                    onBack()
+                },
             ) {
                 Icon(Icons.Filled.KeyboardArrowLeft, "")
             }
-            Spacer(Modifier.fillMaxWidth(1 / 9f))
+            Spacer(Modifier.fillMaxWidth(1 / 8f))
             Text(
                 text = "Регистрация",
                 fontSize = 35.sp,
@@ -87,8 +94,16 @@ fun Registration() {
                     Text(text = "Логин")
                 }
             },
+            maxLines = 1,
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = if (userLogin.isNullOrEmpty()) {
+                    Color.Red
+                } else {
+                    Color.Green
+                }
+            )
         )
         Spacer(Modifier.padding(bottom = 10.dp))
         Text(
@@ -101,19 +116,42 @@ fun Registration() {
             label = {
                 Text(text = "Пароль")
             },
+            maxLines = 1,
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = if (userPassword.isNullOrEmpty()) {
+                    Color.Red
+                } else {
+                    Color.Green
+                }
+            )
         )
         Spacer(Modifier.padding(bottom = 20.dp))
             Button(
-                onClick = {},
+                onClick = {
+                    vm.addUser(
+                        userLogin,
+                        userPassword
+                    )
+                    onBack()
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(60.dp),
                 shape = RoundedCornerShape(8.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Blue
-                )
+                ),
+                enabled =
+                    if (
+                        userLogin.isNullOrEmpty() ||
+                        userPassword.isNullOrEmpty()
+                    ) {
+                        false
+                    } else {
+                        true
+                    }
             ){
                 Text(
                     text = "Зарегистрироваться",
@@ -132,7 +170,9 @@ fun Registration() {
                     .padding(bottom = 10.dp)
             )
             Button(
-                onClick = {},
+                onClick = {
+                    onAuthorization()
+                },
                 modifier = Modifier
                     .fillMaxWidth(),
                 shape = RoundedCornerShape(8.dp),
