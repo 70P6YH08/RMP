@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.FloatingActionButton
@@ -54,6 +55,7 @@ fun Registration(
 
     var userLogin by remember { mutableStateOf("") }
     var userPassword by remember { mutableStateOf("") }
+    var buttonState by remember {mutableStateOf(false)}
 
     Column(
         modifier = Modifier
@@ -130,11 +132,16 @@ fun Registration(
         Spacer(Modifier.padding(bottom = 20.dp))
             Button(
                 onClick = {
-                    vm.addUser(
-                        userLogin,
-                        userPassword
-                    )
-                    onBack()
+                    if(vm.users.any{it.login == userLogin}){
+                        buttonState = true
+                    }
+                    else{
+                        vm.addUser(
+                            userLogin,
+                            userPassword
+                        )
+                        onBack()
+                    }
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -158,6 +165,20 @@ fun Registration(
                     fontSize = 25.sp
                 )
             }
+        if(buttonState == true){
+            AlertDialog(
+                onDismissRequest = {buttonState == false},
+                title = {Text(text = "Ошибка")},
+                text = {Text(text = "Такой пользователь уже существует")},
+                confirmButton = {
+                    Button(
+                        onClick = {buttonState = false}
+                    ){
+                        Text(text = "Ок")
+                    }
+                }
+            )
+        }
         Spacer(Modifier.padding(bottom = 50.dp))
         Column(
             modifier = Modifier.fillMaxSize(),
