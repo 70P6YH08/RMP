@@ -10,19 +10,15 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Done
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
@@ -34,7 +30,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -42,7 +37,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -62,7 +56,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Users(
-    viewModel: ListUsersViewModel = viewModel(),
+    vm: ListUsersViewModel = viewModel(),
     onUserInfo : (String) -> Unit
 ) {
     var userLogin by remember { mutableStateOf("") }
@@ -120,10 +114,10 @@ fun Users(
         ) {
             Button(
                 onClick = {
-                    viewModel.addUser(
+                    vm.addUser(
                         userLogin,
                         userPassword,
-                        "${userEmail} + @gmail.com"
+                        "${userEmail}@gmail.com"
                     )
                 },
                 enabled =
@@ -139,7 +133,7 @@ fun Users(
             }
             Button(
                 onClick = {
-                    viewModel.deleteUserByLogin(
+                    vm.deleteUserByLogin(
                         userLogin
                     )
                 }
@@ -156,7 +150,7 @@ fun Users(
             .padding(top = 300.dp, bottom = 40.dp)
             .border(border = BorderStroke(1.dp, Color.Green))
     ) {
-        items(viewModel.users) { user ->
+        items(vm.users) { user ->
             Text(
                 text = user.login,
                 fontSize = 40.sp,
@@ -173,9 +167,9 @@ fun Users(
 fun UserInfo(
     onBack: () -> Unit,
     login: String,
-    viewModel: ListUsersViewModel = viewModel()
+    vm: ListUsersViewModel = viewModel()
 ) {
-    var user = viewModel.getInfoByLogin(login)
+    val user = vm.getInfoByLogin(login)
 
     if (user == null) {
         Column(
@@ -273,7 +267,7 @@ fun UserInfo(
             }
             Button(
                 onClick = {
-                    viewModel.updateUserByLogin(login, password, email)
+                    vm.updateUserByLogin(login, password, email)
                 }
             ){
                 Icon(Icons.Filled.Done, "")
@@ -286,13 +280,14 @@ fun UserInfo(
 @Composable
 fun TrueNavRoot(){
     LabWork26Theme {
-    val navController = rememberNavController()
-        val viewModel : ListUsersViewModel = viewModel()
+        val vm : ListUsersViewModel = viewModel()
+        val navController = rememberNavController()
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             Column(Modifier.padding(innerPadding)) {
-                NavHost(navController, startDestination = Screens.USERS.route) {
+                NavHost(navController, startDestination = "users") {
                     composable("users") {
                         Users(
+                            vm = vm,
                             onUserInfo = {login ->
                                 navController.navigate("userinfo/$login")}
                         )
@@ -304,7 +299,7 @@ fun TrueNavRoot(){
                     ) { stack ->
                         val login = stack.arguments?.getString("login")!!
                         UserInfo(
-                            viewModel = viewModel,
+                            vm = vm,
                             onBack = {navController.popBackStack()},
                             login = login
                         )
@@ -313,8 +308,4 @@ fun TrueNavRoot(){
             }
         }
     }
-}
-
-enum class Screens(val route: String){
-    USERS("users"),
 }

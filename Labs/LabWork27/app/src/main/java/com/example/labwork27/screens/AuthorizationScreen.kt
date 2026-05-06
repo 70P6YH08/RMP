@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.labwork27.UserViewModel
+import java.lang.reflect.Modifier
 
 @Composable
 fun Authorization(
