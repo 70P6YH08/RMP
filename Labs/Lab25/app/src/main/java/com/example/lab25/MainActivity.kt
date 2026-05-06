@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -27,6 +28,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -41,6 +43,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.documentfile.provider.DocumentFile
@@ -309,12 +312,10 @@ fun Notes() {
     }
 }
 
+@Preview(showBackground = true)
 @Composable
 fun ExternalFiles() {
     var name by remember { mutableStateOf("") }
-
-    var buttonSaveState by remember { mutableStateOf(true) }
-    var buttonOpenState by remember { mutableStateOf(true) }
 
     val context = LocalContext.current
 
@@ -336,37 +337,36 @@ fun ExternalFiles() {
 
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 80.dp, bottom = 40.dp)
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
+        OutlinedTextField(
+            value = name,
+            onValueChange = {name = it},
+            shape = RoundedCornerShape(20.dp),
+            modifier = Modifier.fillMaxWidth(7/10f))
         Row(
-            modifier = Modifier.padding(horizontal = 10.dp)
+            modifier = Modifier
+                .fillMaxWidth(7/10f)
         ){
             Button(
                 onClick = {
                     open.launch("notes/*")
                 },
-                enabled = buttonOpenState,
                 modifier = Modifier
-                    .padding(end = 10.dp)
             ) {
                 Text(text = "Открыть")
             }
-
+            Spacer(Modifier.weight(1f))
             Button(
                 onClick = {
-                    open.launch("notes/*")
+                    save.launch(name)
                 },
-                enabled = buttonSaveState
+                modifier = Modifier
             ) {
                 Text(text = "Сохранить")
             }
         }
-
-        Spacer(modifier = Modifier.padding(bottom = 5.dp))
-
-
-        Text(text = docFile.readText())
     }
 }
